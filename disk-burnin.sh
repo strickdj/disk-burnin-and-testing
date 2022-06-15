@@ -1,8 +1,11 @@
 #!/bin/sh
+stty -echo
+set -Eeuo pipefail
+
 ################################################################################
 #
 # disk-burnin.sh
-# 
+#
 ################################################################################
 
 ################################################################################
@@ -237,7 +240,7 @@ while getopts ':hefo:x' option; do
         ;;
     o)  LOG_DIR="${OPTARG}"
         ;;
-    x)  BB_E_ARG=0  
+    x)  BB_E_ARG=0
         ;;
     :)  printf 'Missing argument for -%s\n' "${OPTARG}" >&2
         echo "${USAGE}" >&2
@@ -342,7 +345,7 @@ DISK_MODEL="$(get_smart_info_value "Device Model")"
 [ -z "${DISK_MODEL}" ] && DISK_MODEL="$(get_smart_info_value "Model Number")"
 readonly DISK_MODEL
 
-# Get disk type; unless we get 'Solid State Device' as return value, assume 
+# Get disk type; unless we get 'Solid State Device' as return value, assume
 # we have a mechanical drive.
 DISK_TYPE="$(get_smart_info_value "Rotation Rate")"
 if printf '%s' "${DISK_TYPE}" | grep -i "solid_state_device" > /dev/null 2>&1; then
@@ -398,7 +401,7 @@ log_info() {
 ##################################################
 log_header() {
   log_info "+-----------------------------------------------------------------------------"
-  log_info "+ $1: $(date)"              
+  log_info "+ $1: $(date)"
   log_info "+-----------------------------------------------------------------------------"
 }
 
